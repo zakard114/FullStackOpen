@@ -1,0 +1,25 @@
+1.B
+구문에 관해서, 클래스와 그로부터 생성된 객체는 Java 클래스와 객체를 매우 연상시킵니다. 그들의 동작도 Java 객체와 매우 유사합니다. 핵심적으로, 그들은 여전히 ​​JavaScript의 프로토타입상속(https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance) 에 기반한 객체입니다 . 두 객체의 유형은 실제로 Object 인데, JavaScript는 기본적으로 Boolean, Null, Undefined, Number, String, Symbol, BigInt, Object 유형(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures) 만 정의하기 때문입니다 .
+
+클래스 구문의 도입은 논란의 여지가 있는 추가 사항이었습니다. 자세한 내용은 Medium에서 Not Awesome: ES6 Classes(https://github.com/petsel/not-awesome-es6-classes) or Is “Class” In ES6 The New “Bad” Part?(https://medium.com/@rajaraodv/is-class-in-es6-the-new-bad-part-6c4e6fe1ee65)를 확인하세요.
+
+ES6 클래스 구문은 "오래된" React와 Node.js에서 많이 사용되므로 이 과정에서도 이를 이해하는 것이 유익합니다. 그러나 이 과정 전체에서 React의 새로운 Hooks(https://react.dev/reference/react) 기능을 사용하고 있으므로 JavaScript의 클래스 구문을 구체적으로 사용할 수 없습니다.
+
+자바스크립트 자료
+인터넷에는 JavaScript에 대한 좋은 가이드와 나쁜 가이드가 모두 있습니다. JavaScript 기능과 관련된 이 페이지의 대부분 링크는 Mozilla의 JavaScript 가이드(https://developer.mozilla.org/en-US/docs/Web/JavaScript)를 참조합니다 .
+
+Mozilla 웹사이트에서 JavaScript 언어 개요(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_overview)를 바로 읽어보시기 바랍니다 .
+
+JavaScript에 대해 심도 있게 알고 싶다면 인터넷에 You-Dont-Know-JS(https://github.com/getify/You-Dont-Know-JS) 라는 훌륭한 무료 시리즈가 있습니다 .
+
+JavaScript를 배우기 위한 또 다른 좋은 자료는 javascript.info(https://javascript.info/) 입니다 .
+
+무료이며 매우 매력적인 책인 Eloquent JavaScript(https://eloquentjavascript.net/)는 기본부터 흥미로운 내용까지 빠르게 안내합니다. 이론 프로젝트와 연습이 혼합되어 있으며 일반적인 프로그래밍 이론과 JavaScript 언어를 다룹니다.
+
+Namaste 🙏 JavaScript(https://www.youtube.com/playlist?list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP)는 JS가 내부적으로 어떻게 작동하는지 이해하기 위한 또 다른 훌륭하고 강력히 추천하는 무료 JavaScript 튜토리얼입니다. Namaste JavaScript는 YouTube에서 무료로 공개된 순수 심층 JavaScript 과정입니다. JavaScript의 핵심 개념을 자세히 다루고 JavaScript 엔진 내부에서 JS가 내부적으로 어떻게 작동하는지에 대한 모든 것을 다룹니다.
+
+egghead.io(https://egghead.io/) 에는 JavaScript, React 및 기타 흥미로운 주제에 대한 양질의 스크린캐스트가 많이 있습니다. 안타깝게도 일부 자료는 유료입니다.
+
+==
+
+1.C
