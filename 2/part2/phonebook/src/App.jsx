@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 
+// Filter component
 const Filter = ({search, searchChangeHandler, searchInputRef}) => {
   useEffect(()=> {
-    // To prevent future focus issues, set focus to the input element 
-    // when the component renders
+    // Set focus on the input field when the component is first rendered
     searchInputRef.current.focus()
-  }, [searchInputRef]) // Executed whenever searchInputRef changes
+  }, []) // Runs once on initial render with an empty array []
+         // whereas [searchInputRef] runs on every state change
   
   return (
     <div>
@@ -21,15 +22,16 @@ const Filter = ({search, searchChangeHandler, searchInputRef}) => {
   ) 
 }
 
+// Function to handle error messages for empty input values
 const PersonForm =({ formData }) => {
   const { addPerson, newName, nameChangeHandler, 
         newNumber, numberChangeHandler } = formData
         
-        // 비어있는 입력값에 대한 오류메시지 추가
+        // Additional message for empty input
         const handleSubmit = (event) => {
           event.preventDefault()
           if(!newName || !newNumber){
-            alert('Name and number cannot be empty') // 입력값이 비어있음
+            alert('Name and number cannot be empty') // Input value is empty
             return 
           }
           addPerson(event)
@@ -57,19 +59,20 @@ const PersonForm =({ formData }) => {
                       />
               </div>
               <div>
-                <button type="submit">add</button>
+                <button type="submit">add</button> {/* Submit button */}
               </div>
            </form>
           </div>
       )
     }
 
+// Persons list component
 const Persons = ({ persons }) => {
   return (
     <div>
       {persons.map((person) => (
         <Person 
-          key={person.id}
+          key={person.id} // Unique key value
           person={person}
         />
       ))}
@@ -77,13 +80,14 @@ const Persons = ({ persons }) => {
   )
 }
 
+// Individual person component
 const Person = ({ person }) => (
   <div>
     {person.name} {person.number}
   </div>
 )
 
-
+// Application root component
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-1234567', id: 1 },
@@ -98,24 +102,28 @@ const App = () => {
   // Creating a ref for managing focus
   const searchInputRef = useRef()
 
+  // Function to handle changes in search input value
   const searchChangeHandler = (event) => {
     setSearch(event.target.value)
   }
 
+  // Function to handle name input value change
   const nameChangeHandler = (event) => {
     setNewName(event.target.value)
   }
 
+  // Function to handle number input value change
   const numberChangeHandler = (event) => {
     setNewNumber(event.target.value)
   } 
 
+  // Function to handle adding a new person
   const addPerson = (event) => {
     event.preventDefault()
 
     const newNameLower = newName.toLowerCase()
     if(persons.some(person => person.name.toLowerCase() === newNameLower)){
-      alert(`${newName} is already added to phonebook`)
+      alert(`${newName} is already added to phonebook`) // Notification of already added names
       setNewName('')
       setNewNumber('')
       return   
@@ -126,6 +134,7 @@ const App = () => {
     setNewNumber('')
   }
 
+  // Filtered list of persons
   const filterPersons = persons.filter(person => 
     person.name.toLowerCase().includes(search.toLowerCase())
   )
