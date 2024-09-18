@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import axios from 'axios'
 
 // Filter component
 const Filter = ({search, searchChangeHandler, searchInputRef}) => {
@@ -89,15 +90,22 @@ const Person = ({ person }) => (
 
 // Application root component
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'zakard114', number: '12-34-567890', id: 3 },
-    { name: 'Mac Lovin', number: '09-87-654321', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  
+  useEffect(()=>{
+    // Fetch data from the server
+    axios
+      .get('http://localhost:3001/persons') // URL should be updated according to the backend 
+      .then(response => {
+        setPersons(response.data)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error)
+      })
+  },[]) // Empty dependency array means this runs once when the component is mounted
   
   // Creating a ref for managing focus
   const searchInputRef = useRef()
@@ -129,9 +137,16 @@ const App = () => {
       return   
     }
 
-    setPersons([...persons, {name: newName, number: newNumber, id:persons.length+1}])
-    setNewName('') 
-    setNewNumber('')
+    axios 
+      .post('http://localhost:3001/persons', {name: newName, number: newNumber})
+      .then(response => {
+        setPersons([...persons, response.data])
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        console.error('Error adding person:', error)
+      })
   }
 
   // Filtered list of persons
