@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/persons'
+import './App.css';
 
 
 // Application root component
@@ -9,11 +9,16 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState({ message: null, isError: true})
+  // const [errorMessage, setErrorMessage] = useState('')
+  
   
   useEffect(()=>{
     personService
       .getAll()
       .then(initialPersons => {
+        console.log('Fetched persons:', initialPersons);
+
         setPersons(initialPersons)
       })
 
@@ -44,14 +49,18 @@ const App = () => {
     const existingPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
 
     if(existingPerson){
-      const confirmUpdate = window.confirm(`${newName} is already added to phonebook. Would you like to update ${newName}'s number?`)
+      const confirmUpdate = window.confirm(`${newName} is already added to phonebook. Would you like to update ${newName}'s number?`, false)
       if(confirmUpdate) {
         const updatedPerson = { ...existingPerson, number: newNumber}
         personService.update(existingPerson.id, updatedPerson).then(returnedPerson => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
           setNewName('')
           setNewNumber('')
+          showNotification(`${newName}'s number has been updated.`, false)
         })
+        .catch(error => 
+          showNotification(error.message, false)
+        )
       }
     } else {
       personService
@@ -60,13 +69,18 @@ const App = () => {
         setPersons([...persons, response])
         setNewName('')
         setNewNumber('')
+        
+        showNotification(`Added ${newName}`, false)
       })
+      .catch(error => 
+        showNotification(error.message, true)
+      )
     }
   }
 
   // Filtered list of persons
   const filterPersons = persons.filter(person => 
-    person.name.toLowerCase().includes(search.toLowerCase())
+    person && person.name.toLowerCase().includes(search.toLowerCase())
   )
 
   const deletePerson = (id, name) => {
@@ -77,15 +91,27 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== id))
         })
         .catch(error => {
-          alert(`the person '${name}' was already deleted from the server`)
+          showNotification(`the person '${name}' was already deleted from the server`, true)
           setPersons(persons.filter(person => person.id !== id))
         }) 
     }
   }
 
+
+  
+   const showNotification = (message, isError) => {
+    console.log('Notification message:', message, isError);  // message 값 확인
+
+    setNotificationMessage({ message, isError })
+    setTimeout(() => {
+      setNotificationMessage({ message: null, isError: true })
+    }, 5000)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage.message} isError={notificationMessage.isError} />
       {/* Pass ref to the Filter component for focus management */}
       <Filter 
         search={search} 
@@ -100,7 +126,8 @@ const App = () => {
           newName,
           nameChangeHandler,
           newNumber,
-          numberChangeHandler
+          numberChangeHandler,
+          showNotification,
         }}
       />
 
@@ -109,6 +136,19 @@ const App = () => {
         persons={filterPersons}
         deletePerson={deletePerson}
       />
+    </div>
+  )
+}
+
+const Notification = ({ message, isError }) => {
+  console.log("checky", message, isError)
+  if(!message){
+    return null
+  }
+
+  return (
+    <div className={isError? "error" : "success"}>
+      {message}
     </div>
   )
 }
@@ -138,13 +178,14 @@ const Filter = ({search, searchChangeHandler, searchInputRef}) => {
 // Function to handle error messages for empty input values
 const PersonForm =({ formData }) => {
   const { addPerson, newName, nameChangeHandler, 
-        newNumber, numberChangeHandler } = formData
+        newNumber, numberChangeHandler, showNotification } = formData
         
         // Additional message for empty input
         const handleSubmit = (event) => {
           event.preventDefault()
           if(!newName || !newNumber){
-            alert('Name and number cannot be empty') // Input value is empty
+            console.log('if works')
+            showNotification('Name and number cannot be empty', true) // Input value is empty
             return 
           }
           addPerson(event)
@@ -204,4 +245,4 @@ const Person = ({ person, deletePerson }) => (
   </div>
 )
 
-export default App
+export default App;

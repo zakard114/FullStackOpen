@@ -20,10 +20,7 @@ const create = newObject => {
     return request.then(response => response.data)
                   .catch(error => {
                     console.error('Error adding person:', error)
-                    return null
-                  })
-                  .catch(error => {
-                    console.error('Error adding person:', error)
+                    throw new Error('Failed to add person. Please try again')
                   })
 }
 
@@ -34,6 +31,9 @@ const remove = id => {
 const update = (id, newObject) => {
   return axios.put(`${baseUrl}/${id}`, newObject)
               .then(response => response.data)
+              .catch(error => {
+                throw new Error(`Information of '${newObject}' has already been removed from server`)
+              })
 }
 
 export default { getAll, create, remove, update };
