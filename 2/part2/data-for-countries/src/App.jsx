@@ -18,19 +18,6 @@ const App = (props) => {
       })
   },[])
 
-  // useEffect(() => {
-  //   if (search.trim() === ''){
-  //     setFilteredCountries([])
-  //     return
-  //   }
-
-  //   const results = countries.filter(country =>
-  //     country.name.common.toLowerCase().includes(search.toLowerCase().trim())
-  //   )
-  //   setFilteredCountries(results)
-  //   console.log("initial filtering completed: ", filteredCountries)
-  // }, [search, countries])
-
   const handleSearchChange = (event) => {
     
     const searchValue = event.target.value; 
@@ -90,7 +77,11 @@ const App = (props) => {
 
     
     const renderCountries = counryList.map((country) => (
-      <p key={country.name.common}>{country.name.common}</p>
+      <div key={country.name.common}>
+        <p>{country.name.common}
+          <button onClick={()=> setFilteredCountries([country])}>show</button>
+      </p>
+      </div>
     ))
     return (
       <div>{renderCountries}</div>
