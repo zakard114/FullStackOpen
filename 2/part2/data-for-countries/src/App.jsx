@@ -1,6 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import countryService from './services/countryService'
+import getWeather from './services/weatherService'
 import './App.css'
+
+const Weather = ({ capital }) => {
+  const [weather, setWeather] = useState(null)
+  const api_key = import.meta.env.VITE_WEATHER_API_KEY
+
+  useEffect(() => {
+    // Call OpenWeatherMap API
+    const fetchWeather = async () => {
+        const data = await getWeather(capital, api_key)
+        setWeather(data)
+      } 
+      fetchWeather()
+  }, [capital, api_key])
+
+  if(!weather) {
+    return <p>Loading weather...</p>
+  }
+
+  return (
+    <div>
+      <h2>Weather in {capital}</h2>
+      <p>Temperature: {weather.main.temp} Celcius</p>
+      <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`} alt="weather icon"></img>
+      <p>Wind: {weather.wind.speed} m/s</p>
+      </div>
+      )
+    }
+
 
 const App = (props) => {
   const [ countries, setCountries ] = useState([])
@@ -71,11 +100,9 @@ const App = (props) => {
   }
 
   const renderCountryList = (counryList) => {
-    if(countries.length === 0) {
+    if(counryList.length === 0) {
       return <p>No countries found</p>
-    } 
-
-    
+    }
     const renderCountries = counryList.map((country) => (
       <div key={country.name.common}>
         <p>{country.name.common}
@@ -102,11 +129,19 @@ const App = (props) => {
         {filteredCountries.length > 10
         ? renderTooManyMatches()
         : filteredCountries.length === 1
-        ? renderSingleCountry(filteredCountries[0])
+        ? 
+          // renderSingleCountry(filteredCountries[0])
+        (
+          <div>
+          {renderSingleCountry(filteredCountries[0])}
+          <Weather capital={filteredCountries[0].capital} />
+          </div>
+          )
         : filteredCountries.length >= 2 
         ? renderCountryList(filteredCountries)
         : <div>No countries found</div>} 
       </div>
+      
     </div>
   )
 }
