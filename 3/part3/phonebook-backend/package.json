@@ -1,0 +1,31 @@
+{
+  "name": "phonebook-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",    
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zakard114/FullStackOpen.git"
+  },
+  "keywords": [
+    "phonebook",
+    "backend"
+  ],
+  "author": "Heeju Yang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zakard114/FullStackOpen/issues"
+  },
+  "homepage": "https://github.com/zakard114/FullStackOpen#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
