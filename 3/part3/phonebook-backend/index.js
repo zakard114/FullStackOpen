@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json()) // POST 요청에서 JSON 파싱을 위해 필요
+
 let persons = [
     { 
       id: "1",
@@ -51,9 +53,40 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  person = persons.filter(person => person.id !== id)
+  persons = persons.filter(person => person.id !== id)
 
   response.status(204).end()  // 204: No Content
+})
+
+const generatedId = () => {
+  return Math.floor(Math.random() * 1000000)
+}
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  if(!body.name || !body.number) {
+    return response.status(400).json({
+      error: "name or number doesn't exist"
+    })
+  }
+
+  const validName = persons.some(person => person.name === body.name)
+  if(validName) {
+    return response.status(400).json({
+      error:'name must be unique'
+    })
+  }
+
+  const person = {
+    id: generatedId(),
+    name: body.name,
+    number: body.number
+  }
+
+  persons = persons.concat(person)
+  response.json(person)
+  
 })
 
 const PORT = 3001

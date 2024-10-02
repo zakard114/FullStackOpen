@@ -1,1 +1,13 @@
-DELETE http://localhost:3001/api/persons/ID
+GET http://localhost:3001/api/persons/2
+
+###
+DELETE http://localhost:3001/api/persons/2
+
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+      "name": "Heeju Yang", 
+      "number": "1234-5678"
+}
