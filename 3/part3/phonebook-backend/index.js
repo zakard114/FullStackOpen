@@ -1,6 +1,8 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
+app.use(morgan('tiny'))
 app.use(express.json()) // Required for parsing JSON in POST requests
 
 let persons = [
@@ -88,6 +90,13 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
   
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({error: 'unknown endpoint'})
+}
+
+app.use(unknownEndpoint)
+
 
 const PORT = 3001
 app.listen(PORT, () => {
