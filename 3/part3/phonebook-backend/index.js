@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-app.use(express.json()) // POST 요청에서 JSON 파싱을 위해 필요
+app.use(express.json()) // Required for parsing JSON in POST requests
 
 let persons = [
     { 
