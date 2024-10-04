@@ -8,7 +8,7 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('') // #7
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [errorMessage, setErrorMessage] = useState(null) // The initial error message was "some error happened...", but now it's set to null for the purpose of improving user experience.
 
   useEffect(() => {
     noteService
