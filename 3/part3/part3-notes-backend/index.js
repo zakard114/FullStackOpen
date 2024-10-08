@@ -3,6 +3,9 @@ const cors =require('cors')
 const app = express()
 
 app.use(cors())
+app.use(express.static('dist'))
+
+app.set('etag', false) // Disable ETag (to output 200 response and avoid 304 Not Modified due to caching) 
 
 let notes = [
   {
@@ -59,8 +62,8 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
-app.get('/api/notes', (req, res) => {
-  res.json(notes)
+app.get('/api/notes', (request, response) => {
+  response.json(notes)
 })
 
 app.delete('/api/notes/:id', (request, response) => {
